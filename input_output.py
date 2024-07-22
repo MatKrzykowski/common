@@ -1,5 +1,6 @@
 """common/input_output.py"""
 
+import os
 from pathlib import Path
 import tomllib
 
@@ -51,3 +52,28 @@ def read_toml_file(filename: Path) -> dict:
     """
     with filename.open("rb") as toml_file:
         return tomllib.load(toml_file)
+
+
+def terminal_width() -> int:
+    return os.get_terminal_size().columns
+
+
+def print_heading(title: str, width: int) -> None:
+    print("\n".join([
+        "#" * width,
+        f"#{title:^{width-2}}#",
+        "#" * width,
+    ]))
+
+
+def is_windows() -> bool:
+    """Check if script is running on Windows or Unix"""
+    return os.name == 'nt'
+
+
+def clear_screen() -> None:
+    """Clears terminal screen"""
+    if is_windows():
+        os.system("cls")
+    else:
+        os.system("clear")
