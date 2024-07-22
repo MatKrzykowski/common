@@ -58,11 +58,16 @@ def terminal_width() -> int:
     return os.get_terminal_size().columns
 
 
-def print_heading(title: str, width: int) -> None:
+def line(symbol: str = "=", width: int = 80) -> str:
+    """Returns string of given symbol and width"""
+    return symbol * width
+
+
+def print_heading(title: str, width: int, symbol: str = "#") -> None:
     print("\n".join([
-        "#" * width,
-        f"#{title:^{width-2}}#",
-        "#" * width,
+        line(symbol, width),
+        f"{symbol}{title:^{width-2}}{symbol}",
+        line(symbol, width),
     ]))
 
 
