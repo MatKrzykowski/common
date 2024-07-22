@@ -2,6 +2,7 @@
 
 import os
 from pathlib import Path
+import shutil
 import tomllib
 
 import numpy as np
@@ -55,7 +56,7 @@ def read_toml_file(filename: Path) -> dict:
 
 
 def terminal_width() -> int:
-    return os.get_terminal_size().columns
+    return shutil.get_terminal_size().columns
 
 
 def line(symbol: str = "=", width: int = 80) -> str:
@@ -63,7 +64,9 @@ def line(symbol: str = "=", width: int = 80) -> str:
     return symbol * width
 
 
-def print_heading(title: str, width: int, symbol: str = "#") -> None:
+def print_heading(title: str, width: int = None, symbol: str = "#") -> None:
+    if not width:
+        width = terminal_width()
     print("\n".join([
         line(symbol, width),
         f"{symbol}{title:^{width-2}}{symbol}",
