@@ -26,3 +26,15 @@ def expr_to_float(x: str | float) -> float:
         case str():
             return float(+numexpr.evaluate(x))
     return float(x)
+
+
+def td_to_days(td: dt.timedelta) -> float:
+    """Converts timedelta object to days.
+
+    Args:
+        td (dt.timedelta): Timedelta object.
+
+    Returns:
+        float: Number of days representing td. 
+    """
+    return td.total_seconds() / 60 / 60 / 24
