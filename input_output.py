@@ -6,6 +6,8 @@ import shutil
 import tomllib
 
 import numpy as np
+import pandas as pd
+import termcolor
 
 
 def pretty_float(x: float, max_digits: int = 5) -> str:
@@ -22,6 +24,18 @@ def pretty_float(x: float, max_digits: int = 5) -> str:
     n_digits_whole_part = max(int(np.log10(x)), 0)
     digits = max(max_digits - n_digits_whole_part, 0)
     return f"{x:.{digits}f}"
+
+
+def print_timedelta(td: pd.Timedelta) -> None:
+    """Prints timedelta with color.
+
+    Args:
+        td (pd.Timedelta): Timedelta object.
+    """
+    if td > pd.Timedelta(0):
+        print(termcolor.colored("Remaining:", "red"), td)
+    else:
+        print(termcolor.colored("Ahead:", "green"), -td)
 
 
 def read_toml_file(filename: Path) -> dict:
