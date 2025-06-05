@@ -1,6 +1,7 @@
 "conversions.py"
 
 import datetime as dt
+import functools as ft
 
 import numexpr
 import pandas as pd
@@ -28,13 +29,19 @@ def expr_to_float(x: str | float) -> float:
     return float(x)
 
 
-def td_to_days(td: dt.timedelta) -> float:
+def td_to_float(td: dt.timedelta, factor: float = 1.0) -> float:
     """Converts timedelta object to days.
 
     Args:
         td (dt.timedelta): Timedelta object.
+        factor (float): Optional from seconds conversion factor.
 
     Returns:
-        float: Number of days representing td. 
+        float: Number of given units representing the given timedelta. 
     """
-    return td.total_seconds() / 60 / 60 / 24
+    return td.total_seconds() * factor
+
+
+td_to_minutes = ft.partial(td_to_float, factor=1 / 60)
+td_to_hours = ft.partial(td_to_float, factor=1 / 60 / 60)
+td_to_days = ft.partial(td_to_float, factor=1 / 60 / 60 / 24)
