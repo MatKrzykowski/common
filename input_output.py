@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import shutil
 import tomllib
+from typing import Callable
 
 import numpy as np
 import pandas as pd
@@ -81,3 +82,24 @@ def clear_screen() -> None:
         os.system("cls")
     else:
         os.system("clear")
+
+
+def find_filepath(cond: Callable, dir_path: Path | str = ".") -> str:
+    """Find filepath given condition and optional directory path.
+
+    Args:
+        cond (Callable): Filter used to find specified file.
+        dir_path (Path | str, optional): Directory path. Defaults to ".".
+
+    Returns:
+        str: Name of the file.
+    """
+    files = list(
+        filter(
+            cond,
+            os.listdir(dir_path)
+        )
+    )
+    if len(files) != 1:
+        assert False
+    return files[0]
