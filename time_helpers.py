@@ -1,5 +1,7 @@
 """time_helpers.py"""
 
+from itertools import accumulate, repeat, takewhile
+from typing import Iterable
 import pandas as pd
 
 td_0 = pd.Timedelta(0)
@@ -9,7 +11,7 @@ def gen_dates(
     start: str | pd.Timestamp,
     end: pd.Timestamp = pd.Timestamp.now(),
     step: int = 1
-) -> list[pd.Timestamp]:
+) -> Iterable[pd.Timestamp]:
     """Generate sorted list of days from start to end.
 
     Args:
@@ -20,9 +22,12 @@ def gen_dates(
     Returns:
         list[pd.Timestamp]: List of sorted days.
     """
-    date = pd.Timestamp(start)
-    dates = []
-    while date < end:
-        dates.append(date)
-        date += pd.Timedelta(days=step)
-    return dates
+    return takewhile(
+        lambda date: date < end,
+        accumulate(
+            repeat(
+                pd.Timedelta(days=step)
+            ),
+            initial=pd.Timestamp(start)
+        )
+    )
