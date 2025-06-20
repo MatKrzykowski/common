@@ -10,6 +10,8 @@ import numpy as np
 import pandas as pd
 import termcolor
 
+from time_helpers import td_0
+
 
 def pretty_float(x: float, max_digits: int = 5) -> str:
     """Returns "pretty" string given a number, without trailing 0s.
@@ -33,7 +35,7 @@ def print_timedelta(td: pd.Timedelta) -> None:
     Args:
         td (pd.Timedelta): Timedelta object.
     """
-    if td > pd.Timedelta(0):
+    if td > td_0:
         print(termcolor.colored("Remaining:", "red"), td)
     else:
         print(termcolor.colored("Ahead:", "green"), -td)
