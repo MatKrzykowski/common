@@ -31,3 +31,21 @@ def gen_dates(
             initial=pd.Timestamp(start)
         )
     )
+
+def months_since(
+    start: str | pd.Timestamp,
+    end: pd.Timestamp = pd.Timestamp.now(),
+) -> float:
+    """Calculates number of months since start date.
+
+    Args:
+        start (str | pd.Timestamp): Start date.
+        end (pd.Timestamp, optional): End date. Defaults to pd.Timestamp.now().
+
+    Returns:
+        float: Resulting number of months ellapsed until now.
+    """
+    return (
+        pd.Timestamp(end) -
+        pd.Timestamp(start)
+    ).days / 365.25 * 12
