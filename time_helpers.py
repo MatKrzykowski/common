@@ -1,35 +1,43 @@
 """time_helpers.py"""
 
+from functools import partial
 from itertools import accumulate, repeat, takewhile
 from typing import Iterable
+
 import pandas as pd
+from toolz import pipe
 
 td_0 = pd.Timedelta(0)
+td_1D = pd.Timedelta("1D")
 
 
 def gen_dates(
     start: str | pd.Timestamp,
     end: pd.Timestamp = pd.Timestamp.now(),
-    step: int = 1
+    step: pd.Timedelta = td_1D,
 ) -> Iterable[pd.Timestamp]:
     """Generate sorted list of days from start to end.
 
     Args:
         start (str | pd.Timestamp): Start date.
         end (pd.Timestamp, optional): End date. Defaults to pd.Timestamp.now().
-        step (int, optional): Distance between days. Defaults to 1.
+        step (pd.Timedelta, optional): Distance between dates.
+            Defaults to 1 day timedelta.
 
     Returns:
         list[pd.Timestamp]: List of sorted days.
     """
-    return takewhile(
-        lambda date: date < end,
-        accumulate(
-            repeat(
-                pd.Timedelta(days=step)
-            ),
+    dates = pipe(
+        step,
+        repeat,
+        partial(
+            accumulate,
             initial=pd.Timestamp(start)
         )
+    )
+    return takewhile(
+        lambda date: date < end,
+        dates
     )
 
 def months_since(
