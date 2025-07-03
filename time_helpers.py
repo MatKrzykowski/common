@@ -58,7 +58,7 @@ def months_since(
         pd.Timestamp(start)
     ).days / 365.25 * 12
 
-def ts_to_date(ts: pd.Timestamp):
+def ts_to_date(ts: pd.Timestamp) -> pd.Timestamp:
     """Strips timestamp from clock time information.
 
     Args:
