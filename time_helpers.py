@@ -57,3 +57,17 @@ def months_since(
         pd.Timestamp(end) -
         pd.Timestamp(start)
     ).days / 365.25 * 12
+
+def ts_to_date(ts: pd.Timestamp):
+    """Strips timestamp from clock time information.
+
+    Args:
+        ts (pd.Timestamp): Timestamp refering to the midnight of the day of 
+            the original timestamp.
+    """
+    return ts.replace(
+        hour=0,
+        minute=0,
+        second=0,
+        microsecond=0
+    )
