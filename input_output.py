@@ -105,3 +105,15 @@ def find_filepath(cond: Callable, dir_path: Path | str = ".") -> str:
     if len(files) != 1:
         assert False
     return files[0]
+
+def move_file_if_exists(source, dest) -> None:
+    if os.path.isfile(
+        os.path.expanduser(source)
+    ):
+        shutil.move(
+            os.path.expanduser(source),
+            dest
+        )
+        print("File moved")
+    else:
+        print("File does not exist")
