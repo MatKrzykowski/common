@@ -36,7 +36,7 @@ def gen_dates(
         )
     )
     return takewhile(
-        lambda date: date < end,
+        lambda date: date < pd.Timestamp(end),
         dates
     )
 
