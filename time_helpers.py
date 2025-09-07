@@ -42,17 +42,20 @@ def gen_dates(
 
 def months_since(
     start: str | pd.Timestamp,
-    end: pd.Timestamp = pd.Timestamp.now(),
+    end: str | pd.Timestamp | None = None,
 ) -> float:
     """Calculates number of months since start date.
 
     Args:
         start (str | pd.Timestamp): Start date.
-        end (pd.Timestamp, optional): End date. Defaults to pd.Timestamp.now().
+        end (str| pd.Timestamp | None, optional): End date.
+            Defaults to None, overwritten later to pd.Timestamp.now().
 
     Returns:
         float: Resulting number of months ellapsed until now.
     """
+    if not end:
+        end = pd.Timestamp.today()
     return (
         pd.Timestamp(end) -
         pd.Timestamp(start)
