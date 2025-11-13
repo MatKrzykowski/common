@@ -37,7 +37,7 @@ def td_to_float(td: dt.timedelta, factor: float = 1.0) -> float:
         factor (float): Optional from seconds conversion factor.
 
     Returns:
-        float: Number of given units representing the given timedelta. 
+        float: Number of given units representing the given timedelta.
     """
     return td.total_seconds() * factor
 

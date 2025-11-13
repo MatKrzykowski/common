@@ -132,21 +132,21 @@ def sliding_window(iterable, n):
         yield tuple(window)
 
 
-def grouper(iterable, n, *, incomplete='fill', fillvalue=None):
+def grouper(iterable, n, *, incomplete="fill", fillvalue=None):
     "Collect data into non-overlapping fixed-length chunks or blocks."
     # grouper('ABCDEFG', 3, fillvalue='x') → ABC DEF Gxx
     # grouper('ABCDEFG', 3, incomplete='strict') → ABC DEF ValueError
     # grouper('ABCDEFG', 3, incomplete='ignore') → ABC DEF
     iterators = [iter(iterable)] * n
     match incomplete:
-        case 'fill':
+        case "fill":
             return zip_longest(*iterators, fillvalue=fillvalue)
-        case 'strict':
+        case "strict":
             return zip(*iterators, strict=True)
-        case 'ignore':
+        case "ignore":
             return zip(*iterators)
         case _:
-            raise ValueError('Expected fill, strict, or ignore')
+            raise ValueError("Expected fill, strict, or ignore")
 
 
 def roundrobin(*iterables):
@@ -169,7 +169,7 @@ def subslices(seq):
 def iter_index(iterable, value, start=0, stop=None):
     "Return indices where a value occurs in a sequence or iterable."
     # iter_index('AABCADEAF', 'A') → 0 1 4 7
-    seq_index = getattr(iterable, 'index', None)
+    seq_index = getattr(iterable, "index", None)
     if seq_index is None:
         iterator = islice(iterable, start, stop)
         for i, element in enumerate(iterator, start):
@@ -205,7 +205,7 @@ def powerset(iterable):
     "Subsequences of the iterable from shortest to longest."
     # powerset([1,2,3]) → () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)
     s = list(iterable)
-    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
+    return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))
 
 
 def sum_of_squares(iterable):
@@ -250,7 +250,7 @@ def convolve(signal, kernel):
     # convolve(data, [1, -2, 1]) → 2nd derivative estimate
     kernel = tuple(kernel)[::-1]
     n = len(kernel)
-    padded_signal = chain(repeat(0, n-1), signal, repeat(0, n-1))
+    padded_signal = chain(repeat(0, n - 1), signal, repeat(0, n - 1))
     windowed_signal = sliding_window(padded_signal, n)
     return map(sumprod, repeat(kernel), windowed_signal)
 
@@ -258,7 +258,7 @@ def convolve(signal, kernel):
 def polynomial_from_roots(roots):
     """Compute a polynomial's coefficients from its roots.
 
-       (x - 5) (x + 4) (x - 3)  expands to:   x³ -4x² -17x + 60
+    (x - 5) (x + 4) (x - 3)  expands to:   x³ -4x² -17x + 60
     """
     # polynomial_from_roots([5, -4, 3]) → [1, -4, -17, 60]
     factors = zip(repeat(1), map(neg, roots))
@@ -282,8 +282,8 @@ def polynomial_eval(coefficients, x):
 def polynomial_derivative(coefficients):
     """Compute the first derivative of a polynomial.
 
-       f(x)  =  x³ -4x² -17x + 60
-       f'(x) = 3x² -8x  -17
+    f(x)  =  x³ -4x² -17x + 60
+    f'(x) = 3x² -8x  -17
     """
     # polynomial_derivative([1, -4, -17, 60]) → [3, -8, -17]
     n = len(coefficients)
@@ -298,7 +298,7 @@ def sieve(n):
         yield 2
     data = bytearray((0, 1)) * (n // 2)
     for p in iter_index(data, 1, start=3, stop=isqrt(n) + 1):
-        data[p*p: n: p+p] = bytes(len(range(p*p, n, p+p)))
+        data[p * p : n : p + p] = bytes(len(range(p * p, n, p + p)))
     yield from iter_index(data, 1, start=3)
 
 

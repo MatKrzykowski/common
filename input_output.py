@@ -66,16 +66,20 @@ def line(symbol: str = "=", width: int = 80) -> str:
 def print_heading(title: str, width: int = None, symbol: str = "#") -> None:
     if not width:
         width = terminal_width()
-    print("\n".join([
-        line(symbol, width),
-        f"{symbol}{title:^{width-2}}{symbol}",
-        line(symbol, width),
-    ]))
+    print(
+        "\n".join(
+            [
+                line(symbol, width),
+                f"{symbol}{title:^{width-2}}{symbol}",
+                line(symbol, width),
+            ]
+        )
+    )
 
 
 def is_windows() -> bool:
     """Check if script is running on Windows or Unix"""
-    return os.name == 'nt'
+    return os.name == "nt"
 
 
 def clear_screen() -> None:
@@ -96,24 +100,15 @@ def find_filepath(cond: Callable, dir_path: Path | str = ".") -> str:
     Returns:
         str: Name of the file.
     """
-    files = list(
-        filter(
-            cond,
-            os.listdir(dir_path)
-        )
-    )
+    files = list(filter(cond, os.listdir(dir_path)))
     if len(files) != 1:
         assert False
     return files[0]
 
+
 def move_file_if_exists(source, dest) -> None:
-    if os.path.isfile(
-        os.path.expanduser(source)
-    ):
-        shutil.move(
-            os.path.expanduser(source),
-            dest
-        )
+    if os.path.isfile(os.path.expanduser(source)):
+        shutil.move(os.path.expanduser(source), dest)
         print("File moved")
     else:
         print("File does not exist")

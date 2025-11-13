@@ -27,18 +27,9 @@ def gen_dates(
     Returns:
         list[pd.Timestamp]: List of sorted days.
     """
-    dates = pipe(
-        step,
-        repeat,
-        partial(
-            accumulate,
-            initial=pd.Timestamp(start)
-        )
-    )
-    return takewhile(
-        lambda date: date < pd.Timestamp(end),
-        dates
-    )
+    dates = pipe(step, repeat, partial(accumulate, initial=pd.Timestamp(start)))
+    return takewhile(lambda date: date < pd.Timestamp(end), dates)
+
 
 def months_since(
     start: str | pd.Timestamp,
@@ -56,21 +47,14 @@ def months_since(
     """
     if not end:
         end = pd.Timestamp.today()
-    return (
-        pd.Timestamp(end) -
-        pd.Timestamp(start)
-    ).days / 365.25 * 12
+    return (pd.Timestamp(end) - pd.Timestamp(start)).days / 365.25 * 12
+
 
 def ts_to_date(ts: pd.Timestamp) -> pd.Timestamp:
     """Strips timestamp from clock time information.
 
     Args:
-        ts (pd.Timestamp): Timestamp refering to the midnight of the day of 
+        ts (pd.Timestamp): Timestamp refering to the midnight of the day of
             the original timestamp.
     """
-    return ts.replace(
-        hour=0,
-        minute=0,
-        second=0,
-        microsecond=0
-    )
+    return ts.replace(hour=0, minute=0, second=0, microsecond=0)
